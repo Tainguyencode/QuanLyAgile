@@ -80,7 +80,7 @@
 </div>
 
 <div class="d-grid">
-<button type="submit" class="btn btn-success">Register</button>
+<button type="submit" class="btn btn-success">Đăng ký</button>
 </div>
 
 </form>

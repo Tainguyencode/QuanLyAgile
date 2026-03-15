@@ -45,7 +45,7 @@ class AuthController extends Controller{
         ]);
         if(Auth::attempt([
             'email'=>$request->email,
-            'password'=>$request->password
+            'password'=>$request->password,
         ])){
             $user=Auth::user();
             if($user->role=='admin'){

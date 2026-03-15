@@ -67,7 +67,7 @@
 @endif
 
 <div class="d-grid">
-<button type="submit" class="btn btn-primary">Login</button>
+<button type="submit" class="btn btn-primary">Đăng nhập</button>
 </div>
 
 </form>
