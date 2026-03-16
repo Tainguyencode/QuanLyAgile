@@ -49,7 +49,7 @@ class CategoryController extends Controller
 
         $this->modelCategory->insertCategory($data);
 
-        return redirect()->route('admin.category.index')
+        return redirect()->route('category')
                 ->with('success','Thêm category thành công');
     }
 
@@ -97,7 +97,7 @@ class CategoryController extends Controller
 
         $this->modelCategory->updateCategory($id, $data);
 
-        return redirect()->route('admin.category.index')
+        return redirect()->route('category')
                 ->with('success','Cập nhật category thành công');
     }
 
@@ -114,7 +114,7 @@ class CategoryController extends Controller
 
         $this->modelCategory->deleteCategory($id);
 
-        return redirect()->route('admin.category.index')
+        return redirect()->route('category')
                 ->with('success','Xóa category thành công');
     }
 }

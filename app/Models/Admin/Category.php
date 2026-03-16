@@ -19,7 +19,7 @@ class Category extends Model
                 ->insert([
                     'name'=>$data['name'],
                     'image'=>$data['image'],
-                    'created_at'=>$data['created_at']
+                    'created_at'=> now()
                 ]);
     }
     public function updateCategory($id, $data){
@@ -28,7 +28,7 @@ class Category extends Model
                 ->update([
                     'name'=>$data['name'],
                     'image'=>$data['image'],
-                    'created_at'=>$data['created_at']
+                    'updated_at'=> now()
                 ]);
     }
     public function deleteCategory($id){

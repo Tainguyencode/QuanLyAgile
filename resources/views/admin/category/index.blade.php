@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 @section('content')
     <h2>Danh sách danh mục</h2>
-    <a href="{{ route('admin.category.create') }}" class="btn btn-sm btn-success">+ Thêm mới danh mục</a>
+    <a href="{{ route('category.create') }}" class="btn btn-sm btn-success">+ Thêm mới danh mục</a>
     <table class="table">
         <thead>
             <tr>
@@ -16,17 +16,19 @@
                 <tr>
                     <td>{{ $category->id }}</td>
                     <td>
-                        <img src="{{ asset($category->image) }}" alt="Hình ảnh sản phẩm" width="100">
+                        <img src="{{ asset('uploads/categories/'. $category->image) }}" alt="Hình ảnh sản phẩm" width="100">
                     </td>
                     <td>{{ $category->name }}</td>
                     <td>
                         <div class="d-flex gap-2">
-                            <a href="" class="btn btn-primary">Xem</a>
-                            <a href="{{ route('admin.category.edit',$category->id) }}" class="btn btn-warning">Sửa</a>
-                            <form action="" method="post" enctype="multipart/form-data"
-                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này!')">
-                                <button class="btn btn-danger">Xóa</button>
-                            </form>
+                            <a href="{{ route('category.show',$category->id) }}" class="btn btn-primary">Xem</a>
+                            <a href="{{ route('category.edit',$category->id) }}" class="btn btn-warning">Sửa</a>
+                            <form action="{{ route('category.delete', $category->id) }}" method="POST" onsubmit="return confirm('Bạn muốn xóa')">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit">Xóa</button>
+                            </form>                        
                         </div>
                     </td>
                 </tr>
