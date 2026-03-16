@@ -16,15 +16,15 @@ class CategorySeeder extends Seeder
         DB::table('categories')->insert([
             [
                 'name'=>'Pizza',
-                'image'=>'pizza.jpg'
+                'image'=>'pizza.jpg',
             ],
             [
                 'name'=>'Burger',
-                'image'=>'burger.jpg'
+                'image'=>'burger.jpg',
             ],
             [
                 'name'=>'Drink',
-                'image'=>'drink.jpg'
+                'image'=>'drink.jpg',
             ],
         ]);
     }
