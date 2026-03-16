@@ -9,65 +9,75 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     private $modelCategory;
+
     public function __construct()
     {
-        $this->modelCategory=new Category();
+        $this->modelCategory = new Category();
     }
-    
-    /**
-     * Display a listing of the resource.
-     */
+
+    // Danh sách category
     public function index()
     {
-        $categories=$this->modelCategory->getAll();
+        $categories = $this->modelCategory->getAll();
         return view('admin.category.index', compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Form thêm
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Lưu category mới
     public function store(Request $request)
     {
-        //
+        $data = [
+            'name' => $request->name,
+            'image' => $request->image,
+            'created_at' => now()
+        ];
+
+        $this->modelCategory->insertCategory($data);
+
+        return redirect()->route('admin.category.index')
+                ->with('success','Thêm category thành công');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Xem chi tiết
     public function show(string $id)
     {
-        //
+        $category = $this->modelCategory->findByid($id);
+        return view('admin.category.show', compact('category'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Form sửa
     public function edit(string $id)
     {
-        //
+        $category = $this->modelCategory->findByid($id);
+        return view('admin.category.edit', compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Cập nhật
     public function update(Request $request, string $id)
     {
-        //
+        $data = [
+            'name' => $request->name,
+            'image' => $request->image,
+            'created_at' => now()
+        ];
+
+        $this->modelCategory->updateCategory($id, $data);
+
+        return redirect()->route('admin.category.index')
+                ->with('success','Cập nhật category thành công');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Xóa
     public function destroy(string $id)
     {
-        //
+        $this->modelCategory->deleteCategory($id);
+
+        return redirect()->route('admin.category.index')
+                ->with('success','Xóa category thành công');
     }
 }
