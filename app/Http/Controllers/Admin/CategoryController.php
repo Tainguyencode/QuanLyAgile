@@ -15,7 +15,7 @@ class CategoryController extends Controller
         $this->modelCategory = new Category();
     }
 
-    // Danh sách category
+    // Danh sách
     public function index()
     {
         $categories = $this->modelCategory->getAll();
@@ -28,12 +28,22 @@ class CategoryController extends Controller
         return view('admin.category.create');
     }
 
-    // Lưu category mới
+    // Lưu category
     public function store(Request $request)
     {
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+
+            $image = $request->file('image');
+            $imagePath = time().'.'.$image->getClientOriginalExtension();
+
+            $image->move(public_path('uploads/categories'), $imagePath);
+        }
+
         $data = [
             'name' => $request->name,
-            'image' => $request->image,
+            'image' => $imagePath,
             'created_at' => now()
         ];
 
@@ -57,13 +67,32 @@ class CategoryController extends Controller
         return view('admin.category.edit', compact('category'));
     }
 
-    // Cập nhật
+    // Update
     public function update(Request $request, string $id)
     {
+        $category = $this->modelCategory->findByid($id);
+
+        $imagePath = $category->image;
+
+        if ($request->hasFile('image')) {
+
+            // xóa ảnh cũ
+            $oldImage = public_path('uploads/categories/'.$category->image);
+
+            if (file_exists($oldImage)) {
+                unlink($oldImage);
+            }
+
+            // upload ảnh mới
+            $image = $request->file('image');
+            $imagePath = time().'.'.$image->getClientOriginalExtension();
+
+            $image->move(public_path('uploads/categories'), $imagePath);
+        }
+
         $data = [
             'name' => $request->name,
-            'image' => $request->image,
-            'created_at' => now()
+            'image' => $imagePath,
         ];
 
         $this->modelCategory->updateCategory($id, $data);
@@ -75,6 +104,14 @@ class CategoryController extends Controller
     // Xóa
     public function destroy(string $id)
     {
+        $category = $this->modelCategory->findByid($id);
+
+        $oldImage = public_path('uploads/categories/'.$category->image);
+
+        if (file_exists($oldImage)) {
+            unlink($oldImage);
+        }
+
         $this->modelCategory->deleteCategory($id);
 
         return redirect()->route('admin.category.index')

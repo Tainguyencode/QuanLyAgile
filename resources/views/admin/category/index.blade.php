@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 @section('content')
     <h2>Danh sách danh mục</h2>
-    <a href="" class="btn btn-sm btn-success">+ Thêm mới danh mục</a>
+    <a href="{{ route('admin.category.create') }}" class="btn btn-sm btn-success">+ Thêm mới danh mục</a>
     <table class="table">
         <thead>
             <tr>
@@ -22,7 +22,7 @@
                     <td>
                         <div class="d-flex gap-2">
                             <a href="" class="btn btn-primary">Xem</a>
-                            <a href="" class="btn btn-warning">Sửa</a>
+                            <a href="{{ route('admin.category.edit',$category->id) }}" class="btn btn-warning">Sửa</a>
                             <form action="" method="post" enctype="multipart/form-data"
                                 onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này!')">
                                 <button class="btn btn-danger">Xóa</button>
