@@ -14,11 +14,14 @@ class AuthController extends Controller{
     public function register(Request $request){
         $request->validate([
             'name'=>'required',
+            'phone'=>['required','regex:/^0[0-9]{9,10}$/'],
             'email'=>'required|email|unique:users',
             'password'=>'required|min:6|confirmed'
         ], [
             'name.required'=>'Vui lòng nhập tên',
             'email.required'=>'Vui lòng nhập email',
+            'phone.required'=>'Vui lòng nhập số điện thoại',
+            'phone.regex'=>'Số điện thoại không hợp lệ (10-11 số, bắt đầu bằng 0)',
             'email.email'=>'Email không đúng định dạng',
             'email.unique'=>'Email đã tồn tại',
             'password.required'=>'Vui lòng nhập mật khẩu',
@@ -27,6 +30,7 @@ class AuthController extends Controller{
         ]);
         $user=User::create([
             'name'=>$request->name,
+            'phone'=>$request->phone,
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
             'role'=>'user'
@@ -37,7 +41,8 @@ class AuthController extends Controller{
     public function login(Request $request){
         $request->validate([
             'email'=>'required|email',
-            'password'=>'required'
+            'password'=>'required',
+            
         ], [
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Email không đúng định dạng',

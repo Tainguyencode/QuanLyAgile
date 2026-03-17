@@ -48,7 +48,15 @@
 <div class="text-danger">{{ $message }}</div>
 @enderror
 </div>
+<div class="mb-3">
+<label class="form-label">Số điện thoại</label>
+<input type="text" name="phone" value="{{ old('phone') }}" class="form-control">
 
+@error('phone')
+
+<div class="text-danger">{{ $message }}</div>
+@enderror
+</div>
 <div class="mb-3">
 <label class="form-label">Email</label>
 <input type="email" name="email" value="{{ old('email') }}" class="form-control">
