@@ -13,16 +13,40 @@ class ProductsController extends Controller
     private $modelCategory;
     public function __construct()
     {
-        $this->modelProducts=new Products();
-        $this->modelCategory=new Category();
+        $this->modelProducts = new Products();
+        $this->modelCategory = new Category();
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function index(Request $request)
     {
-        $products=$this->modelProducts->getAll();
-        return view('admin.products.index', compact('products'));
+        $query = $this->modelProducts->query();
+
+        // lọc danh mục
+        if ($request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // lọc giá (chuẩn, không trùng)
+        if ($request->price_range) {
+            switch ($request->price_range) {
+                case 'under_100':
+                    $query->where('price', '<', 50000.00);
+                    break;
+
+                case '100_200':
+                    $query->where('price', '>', 50000.00)
+                        ->where('price', '<=', 100000.00);
+                    break;
+            }
+        }
+
+        $products = $query->with('category')->paginate(10);
+        $categories = Category::all();
+
+        return view('admin.products.index', compact('products', 'categories'));
     }
 
     /**
@@ -30,7 +54,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $categories=$this->modelCategory->getAll();
+        $categories = $this->modelCategory->getAll();
         return view('admin.products.create', compact('categories'));
     }
 
@@ -40,30 +64,30 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|max:255',
-            'price'=>'required|numeric',
-            'image'=>'required|image|mimes:jpg,png,jpeg|max:2048'
-        ],[
+            'name' => 'required|max:255',
+            'price' => 'required|numeric',
+            'image' => 'required|image|mimes:jpg,png,jpeg|max:2048'
+        ], [
             'name.required' => 'Tên sản phẩm không được để trống',
             'price.required' => 'Giá sản phẩm không được để trống',
             'category_id.required' => 'Vui lòng chọn danh mục',
             'description.required' => 'Mô tả không được để trống',
             'image.required' => 'Vui lòng chọn ảnh sản phẩm'
         ]);
-        $imagePath=null;
+        $imagePath = null;
 
         // Xử lý ảnh
-        if($request->hasFile('image')){
-            $image=$request->file('image');
-            $imagePath=time().'.'.$image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/products'), $imagePath);
         }
-        $data=[
-            'name'=>$request->name,
-            'price'=>$request->price,
-            'description'=>$request->description,
-            'category_id'=>$request->category_id,
-            'image'=>$imagePath
+        $data = [
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'image' => $imagePath
         ];
         $this->modelProducts->insertProducts($data);
         return redirect()->route('products');
@@ -74,7 +98,7 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        $product=$this->modelProducts->findByid($id);
+        $product = $this->modelProducts->findByid($id);
         return view('admin.products.show', compact('product'));
     }
 
@@ -83,8 +107,8 @@ class ProductsController extends Controller
      */
     public function edit(string $id)
     {
-        $categories=$this->modelCategory->getAll();
-        $products=$this->modelProducts->findByid($id);
+        $categories = $this->modelCategory->getAll();
+        $products = $this->modelProducts->findByid($id);
         return view('admin.products.edit', compact('products', 'categories'));
     }
 
@@ -94,33 +118,33 @@ class ProductsController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name'=>'required|max:255',
-            'price'=>'required|numeric',
-        ],[
+            'name' => 'required|max:255',
+            'price' => 'required|numeric',
+        ], [
             'name.required' => 'Tên sản phẩm không được để trống',
             'price.required' => 'Giá sản phẩm không được để trống',
             'category_id.required' => 'Vui lòng chọn danh mục',
             'description.required' => 'Mô tả không được để trống',
         ]);
-        $product=$this->modelProducts->findByid($id);
-        $imagePath=$product->image ?? null;
-        if($request->hasFile('image')){
+        $product = $this->modelProducts->findByid($id);
+        $imagePath = $product->image ?? null;
+        if ($request->hasFile('image')) {
             // Xóa ảnh cũ
-            $oldImage = public_path('uploads/products/'.$product->image);
-            if(file_exists($oldImage)){
+            $oldImage = public_path('uploads/products/' . $product->image);
+            if (file_exists($oldImage)) {
                 unlink($oldImage);
             }
             // upload ảnh mới
-            $image=$request->file('image');
-            $imagePath=time().'.'.$image->getClientOriginalExtension();
+            $image = $request->file('image');
+            $imagePath = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/products'), $imagePath);
         }
-         $data=[
-            'name'=>$request->name,
-            'price'=>$request->price,
-            'description'=>$request->description,
-            'category_id'=>$request->category_id,
-            'image'=>$imagePath
+        $data = [
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'image' => $imagePath
         ];
         $this->modelProducts->updateProducts($id, $data);
         return redirect()->route('products');
@@ -132,8 +156,8 @@ class ProductsController extends Controller
     public function destroy(string $id)
     {
         $product = $this->modelProducts->findById($id);
-        $imagePath = public_path('uploads/products/'.$product->image);
-        if(file_exists($imagePath)){
+        $imagePath = public_path('uploads/products/' . $product->image);
+        if (file_exists($imagePath)) {
             unlink($imagePath);
         }
         $this->modelProducts->deleteProducts($id);

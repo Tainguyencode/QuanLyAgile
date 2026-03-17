@@ -7,40 +7,78 @@ use Illuminate\Support\Facades\DB;
 
 class Products extends Model
 {
-    public function getAll(){
+    public function getAll()
+    {
         return DB::table('products as p')
-        ->join('categories as c', 'c.id', '=', 'p.category_id')
-        ->select('p.*', 'c.name as category_name')
-        ->orderBy('p.id','DESC')
-        ->get();
+            ->join('categories as c', 'c.id', '=', 'p.category_id')
+            ->select('p.*', 'c.name as category_name')
+            ->orderBy('p.id', 'DESC')
+            ->get();
     }
-    public function findByid($id){
+
+    public function findByid($id)
+    {
         return DB::table('products as p')
-        ->join('categories as c', 'c.id', '=', 'p.category_id')
-        ->select('p.*', 'c.name as category_name')
-        ->where('p.id',$id)
-        ->first();
+            ->join('categories as c', 'c.id', '=', 'p.category_id')
+            ->select('p.*', 'c.name as category_name')
+            ->where('p.id', $id)
+            ->first();
     }
-    public function insertProducts($data){
+
+    public function insertProducts($data)
+    {
         return  DB::table('products')->insert([
-                'name'=>$data['name'],
-                'image'=>$data['image'],
-                'description'=> $data['description'],
-                'price'=>$data['price'],
-                'category_id' => $data['category_id']
+            'name' => $data['name'],
+            'image' => $data['image'],
+            'description' => $data['description'],
+            'price' => $data['price'],
+            'category_id' => $data['category_id']
         ]);
     }
-    public function updateProducts($id, $data){
+
+    public function updateProducts($id, $data)
+    {
         return  DB::table('products')
-                ->where('id', $id)
-                ->update([
-                'name'=>$data['name'],
-                'image'=>$data['image'],
-                'description'=> $data['description'],
-                'price'=>$data['price'],
-        ]);
+            ->where('id', $id)
+            ->update([
+                'name' => $data['name'],
+                'image' => $data['image'],
+                'description' => $data['description'],
+                'price' => $data['price'],
+            ]);
     }
-    public function deleteProducts($id){
+
+    public function deleteProducts($id)
+    {
         return DB::table('products')->where('id', $id)->delete();
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        // lọc danh mục
+        if ($request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // lọc giá
+        if ($request->price_range) {
+            switch ($request->price_range) {
+                case 'under_100':
+                    $query->where('price', '<', 100.00);
+                    break;
+
+                case '100_200':
+                    $query->where('price', '>=', 100.00)
+                        ->where('price', '<=', 200.00);
+                    break;
+            }
+        }
+
+        return $query;
     }
 }
