@@ -22,11 +22,14 @@
     <div class="col-md-3">
         <select name="price_range" class="form-select">
             <option value="">-- Chọn giá --</option>
-            <option value="under_100" {{ request('price_range') == 'under_100' ? 'selected' : '' }}>
-                Dưới 50
+            <option value="under_50" {{ request('price_range') == 'under_50' ? 'selected' : '' }}>
+                Dưới 50K
+            </option>
+            <option value="50_100" {{ request('price_range') == '50_100' ? 'selected' : '' }}>
+                50K - 100K
             </option>
             <option value="100_200" {{ request('price_range') == '100_200' ? 'selected' : '' }}>
-                50 - 100
+                Trên 100K
             </option>
         </select>
     </div>

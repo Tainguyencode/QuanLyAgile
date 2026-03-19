@@ -22,7 +22,6 @@ Route::post('/logout', function () {
     return redirect('/login');
 });
 
-
 Route::prefix('admin')->group(function () {
 
     Route::get('/', function () {
@@ -66,3 +65,6 @@ Route::prefix('admin')->group(function () {
     Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
 });
+Route::get('/user', function () {
+    return view('user.dashboard');
+})->middleware('auth');
