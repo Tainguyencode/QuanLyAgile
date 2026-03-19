@@ -24,6 +24,10 @@ class ProductsController extends Controller
     {
         $query = $this->modelProducts->query();
 
+        if ($request->keyword) {
+            $query->where('name', 'like', '%' . $request->keyword . '%');
+        }
+
         // lọc danh mục
         if ($request->category_id) {
             $query->where('category_id', $request->category_id);

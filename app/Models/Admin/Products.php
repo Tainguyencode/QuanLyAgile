@@ -58,27 +58,4 @@ class Products extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function scopeFilter($query, $request)
-    {
-        // lọc danh mục
-        if ($request->category_id) {
-            $query->where('category_id', $request->category_id);
-        }
-
-        // lọc giá
-        if ($request->price_range) {
-            switch ($request->price_range) {
-                case 'under_100':
-                    $query->where('price', '<', 100.00);
-                    break;
-
-                case '100_200':
-                    $query->where('price', '>=', 100.00)
-                        ->where('price', '<=', 200.00);
-                    break;
-            }
-        }
-
-        return $query;
-    }
 }
