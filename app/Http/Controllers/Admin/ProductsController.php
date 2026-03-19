@@ -36,13 +36,16 @@ class ProductsController extends Controller
         // lọc giá (chuẩn, không trùng)
         if ($request->price_range) {
             switch ($request->price_range) {
-                case 'under_100':
+                case 'under_50':
                     $query->where('price', '<', 50000.00);
                     break;
 
-                case '100_200':
+                case '50_100':
                     $query->where('price', '>', 50000.00)
                         ->where('price', '<=', 100000.00);
+                    break;
+                case '100_200':
+                    $query->where('price', '>', 100000.00);
                     break;
             }
         }

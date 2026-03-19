@@ -1,6 +1,7 @@
 @extends('layouts.admin.app')
 @section('content')
     <div class="card">
+        <h2>Thêm sản phẩm mới</h2>
         <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data" class="form-control">
             @csrf
             <div class="mb-3">

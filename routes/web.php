@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,6 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login');
 });
-
 
 Route::prefix('admin')->group(function () {
 
@@ -53,5 +53,18 @@ Route::prefix('admin')->group(function () {
     Route::get('/products/edit/{id}', [ProductsController::class, 'edit'])->name('products.edit');
     Route::put('/products/update/{id}', [ProductsController::class, 'update'])->name('products.update');
     Route::get('/products/show/{id}', [ProductsController::class, 'show'])->name('products.show');
-    Route::delete('/products/show/{id}', [ProductsController::class, 'destroy'])->name('products.destroy');
+    Route::delete('/products/destroy/{id}', [ProductsController::class, 'destroy'])->name('products.destroy');
+    
+    // User
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
 });
+Route::get('/user', function () {
+    return view('user.dashboard');
+})->middleware('auth');

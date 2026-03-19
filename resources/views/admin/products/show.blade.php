@@ -8,4 +8,5 @@
         <li>Giá sản phẩm: {{ $product->price }}</li>
         <li>Mô tả sản phẩm: {{ $product->description }}</li>
     </ul>
+    <a href="{{ route('products') }}" class="btn btn-primary">Quay lại danh sách sản phẩm</a>
 @endsection
