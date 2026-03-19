@@ -34,27 +34,9 @@
             </select>
         </div>
 
-<<<<<<< HEAD
         <div class="col-md-2">
             <button class="btn btn-primary w-100">Tìm</button>
         </div>
-=======
-    <!-- lọc giá -->
-    <div class="col-md-3">
-        <select name="price_range" class="form-select">
-            <option value="">-- Chọn giá --</option>
-            <option value="under_50" {{ request('price_range') == 'under_50' ? 'selected' : '' }}>
-                Dưới 50K
-            </option>
-            <option value="50_100" {{ request('price_range') == '50_100' ? 'selected' : '' }}>
-                50K - 100K
-            </option>
-            <option value="100_200" {{ request('price_range') == '100_200' ? 'selected' : '' }}>
-                Trên 100K
-            </option>
-        </select>
-    </div>
->>>>>>> fb093129df36f1154e644d54309c23c57b6ecf10
 
         <div class="col-md-1">
             <a href="{{ route('products') }}" class="btn btn-secondary w-100">Reset</a>
