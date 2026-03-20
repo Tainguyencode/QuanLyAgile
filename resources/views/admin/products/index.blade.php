@@ -3,46 +3,46 @@
     <h2>Danh sách sản phẩm</h2>
     <a href="{{ route('products.create') }}" class="btn btn-sm btn-success">+ Thêm mới sản phẩm</a>
 
-    <form method="GET" action="{{ route('products') }}" class="row mt-3 mb-3">
+    <form method="GET" action="{{ route('products') }}" class="row mt-3 mb-3 align-items-end">
 
-        <div class="col-md-3">
-            <input type="text" name="keyword" class="form-control"
-                placeholder="Tìm theo tên..." value="{{ request('keyword') }}">
-        </div>
-
-        <div class="col-md-3">
-            <select name="category_id" class="form-select">
-                <option value="">-- Chọn danh mục --</option>
-                @foreach($categories as $cate)
-                    <option value="{{ $cate->id }}"
-                        {{ request('category_id') == $cate->id ? 'selected' : '' }}>
-                        {{ $cate->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="col-md-3">
-            <select name="price_range" class="form-select">
-                <option value="">-- Chọn giá --</option>
-                <option value="under_100" {{ request('price_range') == 'under_100' ? 'selected' : '' }}>
-                    Dưới 50
+    <div class="col-md-3">
+        <label>Danh mục</label>
+        <select name="category_id" class="form-select">
+            <option value="">-- Chọn danh mục --</option>
+            @foreach($categories as $cate)
+                <option value="{{ $cate->id }}"
+                    {{ request('category_id') == $cate->id ? 'selected' : '' }}>
+                    {{ $cate->name }}
                 </option>
-                <option value="100_200" {{ request('price_range') == '100_200' ? 'selected' : '' }}>
-                    50 - 100
-                </option>
-            </select>
-        </div>
+            @endforeach
+        </select>
+    </div>
 
-        <div class="col-md-2">
-            <button class="btn btn-primary w-100">Tìm</button>
-        </div>
+    <div class="col-md-3">
+        <label>Giá</label>
+        <select name="price_range" class="form-select">
+            <option value="">-- Chọn giá --</option>
+            <option value="under_100" {{ request('price_range') == 'under_100' ? 'selected' : '' }}>
+                Dưới 50
+            </option>
+            <option value="100_200" {{ request('price_range') == '100_200' ? 'selected' : '' }}>
+                50 - 100
+            </option>
+        </select>
+    </div>
 
-        <div class="col-md-1">
-            <a href="{{ route('products') }}" class="btn btn-secondary w-100">Reset</a>
-        </div>
+    <div class="col-md-3">
+        <label>Tên sản phẩm</label>
+        <input type="text" name="keyword" class="form-control"
+               placeholder="Tìm theo tên..." value="{{ request('keyword') }}">
+    </div>
 
-    </form>
+    <div class="col-md-3 d-flex gap-2">
+        <button class="btn btn-primary w-50">Tìm</button>
+        <a href="{{ route('products') }}" class="btn btn-secondary w-50">Reset</a>
+    </div>
+
+</form>
 
     <table class="table">
         <thead>

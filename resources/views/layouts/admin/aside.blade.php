@@ -5,4 +5,5 @@
     <a href="/admin/products">🛍️Quản lý sản phẩm</a>
     <a href="/admin/user">👥Quản lý tài khoản</a>
     <a href="#">🧾Quản lý đơn hàng</a>
+    <a href="/logout">➡️Đăng xuất</a>
 </div>

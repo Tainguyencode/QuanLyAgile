@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +66,7 @@ Route::prefix('admin')->group(function () {
     Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
 });
-Route::get('/user', function () {
-    return view('user.dashboard');
-})->middleware('auth');
+// Route::get('/user', function () {
+//     return view('user.home');
+// })->middleware('auth');
+Route::get('/user', [HomeController::class, 'index'])->middleware('auth');

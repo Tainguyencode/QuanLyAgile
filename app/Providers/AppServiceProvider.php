@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $menuProducts = Products::orderBy('id', 'desc')->get();
+        $menuProducts = Products::orderBy('id', 'desc')->take(10)->get();
         View::share('menuProducts', $menuProducts);
     }
 }

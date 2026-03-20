@@ -14,6 +14,19 @@
 
     .nav-custom:hover { color: #c9a67e; }
 
+    .navbar-brand {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: -10px; 
+        margin-bottom: -8px;
+    }
+
+    /* Đảm bảo các link menu vẫn căn giữa theo chiều dọc */
+    .nav-link {
+        line-height: 1; 
+        display: flex;
+        align-items: center;
+    }
     .custom-dropdown {
         position: absolute;
         top: 100%;
@@ -110,7 +123,7 @@
     <div class="container-fluid">
 
         <a class="navbar-brand d-flex align-items-center" href="/">
-            <img src="" alt="Logo" width="40" height="40" class="me-2">
+            <img src="{{ asset('uploads/user/Logo.png') }}" alt="Logo" width="70" height="70" class="me-2">
             <span class="brand-text">FASBITE</span>
         </a>
 
@@ -167,7 +180,7 @@
             <div class="banner-img" style="background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591');">
                 <div class="banner-overlay">
                     <div class="container">
-                        <h2>Pizza Hải Sản <br><span>Giòn Tan</span></h2>
+                        <h2>Pizza Hải Sản <br><span>Mềm thơm ngậy</span></h2>
                         <p>Ưu đãi mua 1 tặng 1 mỗi thứ 3</p>
                     </div>
                 </div>

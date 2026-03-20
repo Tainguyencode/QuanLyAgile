@@ -74,7 +74,7 @@ class ProductsController extends Controller
             'name' => 'required|max:255',
             'price' => 'required|numeric',
             'quantity' => 'required|integer|min:0',
-            'image' => 'required|image|mimes:jpg,png,jpeg|max:2048'
+            'image' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048'
         ], [
             'name.required' => 'Tên sản phẩm không được để trống',
             'price.required' => 'Giá sản phẩm không được để trống',
