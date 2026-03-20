@@ -68,7 +68,7 @@
                         <img src="{{ asset('uploads/products/'.$product->image) }}" width="100">
                     </td>
                     <td>{{ $product->quantity }}</td>
-                    <td>{{ $product->status ? 'Còn hàng' : 'Hết hàng'}}</td>
+                    <td>{{ $product->quantity > 0 ? 'Còn hàng' : 'Hết hàng' }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->description }}</td>
                     <td>
