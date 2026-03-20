@@ -73,13 +73,15 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|numeric',
+            'quantity' => 'required|integer|min:0',
             'image' => 'required|image|mimes:jpg,png,jpeg|max:2048'
         ], [
             'name.required' => 'Tên sản phẩm không được để trống',
             'price.required' => 'Giá sản phẩm không được để trống',
-            'category_id.required' => 'Vui lòng chọn danh mục',
-            'description.required' => 'Mô tả không được để trống',
-            'image.required' => 'Vui lòng chọn ảnh sản phẩm'
+            'quantity.required' => 'Vui lòng nhập số lượng',
+            'quantity.integer' => 'Số lượng phải là số nguyên',
+            'quantity.min' => 'Số lượng không được nhỏ hơn 0',
+            'image.required' => 'Vui lòng chọn ảnh sản phẩm',
         ]);
         $imagePath = null;
 
@@ -94,7 +96,8 @@ class ProductsController extends Controller
             'price' => $request->price,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'image' => $imagePath
+            'image' => $imagePath,
+            'quantity' => $request->quantity
         ];
         $this->modelProducts->insertProducts($data);
         return redirect()->route('products');
@@ -127,11 +130,13 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|numeric',
+            'quantity' => 'required|integer|min:0',
         ], [
             'name.required' => 'Tên sản phẩm không được để trống',
             'price.required' => 'Giá sản phẩm không được để trống',
-            'category_id.required' => 'Vui lòng chọn danh mục',
-            'description.required' => 'Mô tả không được để trống',
+            'quantity.required' => 'Vui lòng nhập số lượng',
+            'quantity.integer' => 'Số lượng phải là số nguyên',
+            'quantity.min' => 'Số lượng không được nhỏ hơn 0',
         ]);
         $product = $this->modelProducts->findByid($id);
         $imagePath = $product->image ?? null;
@@ -151,7 +156,8 @@ class ProductsController extends Controller
             'price' => $request->price,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'image' => $imagePath
+            'image' => $imagePath,
+            'quantity' => $request->quantity
         ];
         $this->modelProducts->updateProducts($id, $data);
         return redirect()->route('products');

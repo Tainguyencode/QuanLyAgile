@@ -32,7 +32,8 @@ class Products extends Model
             'image' => $data['image'],
             'description' => $data['description'],
             'price' => $data['price'],
-            'category_id' => $data['category_id']
+            'category_id' => $data['category_id'],
+            'quantity' => $data['quantity'],
         ]);
     }
 
@@ -45,6 +46,7 @@ class Products extends Model
                 'image' => $data['image'],
                 'description' => $data['description'],
                 'price' => $data['price'],
+                'quantity' => $data['quantity'],
             ]);
     }
 

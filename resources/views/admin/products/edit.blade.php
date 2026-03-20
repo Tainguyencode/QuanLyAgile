@@ -33,6 +33,15 @@
                     <p style="color:red">{{ $message }}</p>
                  @enderror
             </div>
+      
+            <div class="mb-3">
+                <label for="form-label">Số lượng: </label>
+                <input type="number" name="quantity" min="0" value="{{ $products->quantity }}">
+    
+                @error('quantity')
+                    <p style="color:red">{{ $message }}</p>
+                @enderror
+            </div>
             
             <div class="mb-3">
                 <label for="form-label">Mô tả sản phẩm: </label>
