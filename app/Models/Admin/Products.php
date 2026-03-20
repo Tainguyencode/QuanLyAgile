@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\admin;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -60,4 +60,22 @@ class Products extends Model
         return $this->belongsTo(Category::class);
     }
 
+    // ===== USER =====
+
+    public function getLatest($limit = 12)
+    {
+        return DB::table('products')
+            ->orderBy('id', 'desc')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getDetail($id)
+    {
+        return DB::table('products as p')
+            ->join('categories as c', 'c.id', '=', 'p.category_id')
+            ->select('p.*', 'c.name as category_name')
+            ->where('p.id', $id)
+            ->first();
+    }
 }

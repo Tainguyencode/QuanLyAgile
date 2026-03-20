@@ -122,7 +122,7 @@
 <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #fdf5e6; border-bottom: 1px solid #e8e0d5; padding: 15px 50px;">
     <div class="container-fluid">
 
-        <a class="navbar-brand d-flex align-items-center" href="/">
+        <a class="navbar-brand d-flex align-items-center" href="">
             <img src="{{ asset('uploads/user/Logo.png') }}" alt="Logo" width="70" height="70" class="me-2">
             <span class="brand-text">FASBITE</span>
         </a>

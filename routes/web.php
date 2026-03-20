@@ -70,3 +70,4 @@ Route::prefix('admin')->group(function () {
 //     return view('user.home');
 // })->middleware('auth');
 Route::get('/user', [HomeController::class, 'index'])->middleware('auth');
+Route::get('/user/products/{id}', [HomeController::class, 'show'])->name('user.product.show');
