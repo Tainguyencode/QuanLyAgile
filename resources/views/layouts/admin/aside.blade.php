@@ -5,5 +5,10 @@
     <a href="/admin/products">🛍️Quản lý sản phẩm</a>
     <a href="/admin/user">👥Quản lý tài khoản</a>
     <a href="#">🧾Quản lý đơn hàng</a>
-    <a href="/logout">➡️Đăng xuất</a>
+    <form action="/logout" method="POST">
+    @csrf
+    <button type="submit" style="background:none;border:none;color:white;">
+        ➡️ Đăng xuất
+    </button>
+</form>
 </div>

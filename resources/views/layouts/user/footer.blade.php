@@ -4,7 +4,7 @@
 
             <div class="row">
                 <div class="col-md-6 mb-4 mb-md-0">
-                    <h5 class="fw-bold text-uppercase" style="color: #ffca28; font-size: 16px;">ĂN VẶT 24/7</h5>
+                    <h5 class="fw-bold text-uppercase" style="color: #ffca28; font-size: 16px;">ĂN VẶT FASBITE</h5>
                     <div style="width: 30px; height: 2px; background: #ffca28; margin: 15px 0;"></div>
                     <p style="font-size: 14px; line-height: 1.8; color: #e0e0e0; text-align: justify; padding-right: 20px;">
                         Giao hàng mọi nơi trong thời gian nhanh nhất, nhận hàng nhanh chóng. 

@@ -7,19 +7,35 @@
     
     <div class="row g-4"> 
         @foreach($products as $item)
-            <div class="col-md-3"> <div class="product-card">
-                    <div class="product-img-wrapper">
-                        <img src="{{ asset('uploads/products/' . $item->image) }}" alt="{{ $item->name }}">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">{{ $item->name }}</h3>
-                        <p class="product-desc">{{ $item->description ?? 'Mô tả ngắn gọn...' }}</p>
-                        <div class="product-footer">
-                            <span class="product-price">{{ number_format($item->price) }}đ</span>
-                            <button class="add-to-cart-btn">+</button>
+            <div class="col-md-3"> 
+                <a href="{{ route('client.product.show', $item->id) }}" 
+                style="text-decoration:none; color:inherit;">
+                
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            <img src="{{ asset('uploads/products/' . $item->image) }}" alt="{{ $item->name }}">
+                        </div>
+
+                        <div class="product-info">
+                            <h3 class="product-title">{{ $item->name }}</h3>
+                            <p class="product-desc">{{ $item->description ?? 'Mô tả ngắn gọn...' }}</p>
+
+                            <div class="product-footer">
+                                <span class="product-price">
+                                    {{ number_format($item->price) }}đ
+                                </span>
+
+                                <!-- Nút add cart -->
+                                <button class="add-to-cart-btn"
+                                        onclick="event.preventDefault(); event.stopPropagation();">
+                                    +
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                </a>
+
             </div>
         @endforeach
     </div>

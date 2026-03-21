@@ -70,4 +70,5 @@ Route::prefix('admin')->group(function () {
 Route::prefix('client')->middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('client.home');
     Route::get('/category/{id}', [ClientProduct::class, 'getByCategory'])->name('client.products');
+    Route::get('/products/{id}', [HomeController::class, 'show'])->name('client.product.show');
 });
