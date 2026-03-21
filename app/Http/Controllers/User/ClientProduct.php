@@ -4,15 +4,15 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
-use App\Models\Admin\Products;
+use App\Models\admin\Products;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ClientProduct extends Controller
 {
-    public function index()
-    {
+    public function getByCategory($id){
+        $products = Products::where('category_id', $id)->paginate(10);
         $categories = Category::all();
-        $products = Products::latest()->take(8)->get(); // lấy 8 sản phẩm mới
+
         return view('client.home', compact('products', 'categories'));
     }
 }

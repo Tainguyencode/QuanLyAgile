@@ -36,7 +36,7 @@ class AuthController extends Controller{
             'role'=>'user'
         ]);
         Auth::login($user);
-        return redirect('/user')->with('success', 'Đăng ký thành công');
+        return redirect('/client')->with('success', 'Đăng ký thành công');
     }
     public function login(Request $request){
         $request->validate([
@@ -56,7 +56,7 @@ class AuthController extends Controller{
             if($user->role=='admin'){
                 return redirect('/admin');
             }else{
-                return redirect('/user');
+                return redirect('/client');
             }
         }
         return back()->with('error', 'Email hoặc mật khẩu không đúng');

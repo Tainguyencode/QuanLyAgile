@@ -52,12 +52,11 @@
 
     <div class="sidebar-section">
         <h3>Danh mục</h3>
-
-        <a href="#">🍔 Burger</a>
-        <a href="#">🍕 Pizza</a>
-        <a href="#">🍟 Đồ chiên</a>
-        <a href="#">🥤 Nước uống</a>
-        <a href="#">🍗 Gà rán</a>
+            @foreach ($categories as $category)
+                <a href="{{ route('client.products', $category->id) }}">
+                    {{$category->name}}
+                </a>
+            @endforeach
     </div>
 
     <div class="sidebar-section mt-3">

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\User\ClientProduct;
 use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/', function () {
 
         if (!Auth::check()) {
-            return redirect('/login');
+            return redirect('/client');
         }
 
         if (Auth::user()->role != 'admin') {
@@ -55,7 +56,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/products/update/{id}', [ProductsController::class, 'update'])->name('products.update');
     Route::get('/products/show/{id}', [ProductsController::class, 'show'])->name('products.show');
     Route::delete('/products/destroy/{id}', [ProductsController::class, 'destroy'])->name('products.destroy');
-    
+
     // User
     Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
@@ -64,9 +65,9 @@ Route::prefix('admin')->group(function () {
     Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
     Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-
 });
-// Route::get('/user', function () {
-//     return view('user.home');
-// })->middleware('auth');
-Route::get('/user', [HomeController::class, 'index'])->middleware('auth');
+
+Route::prefix('client')->middleware('auth')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('client.home');
+    Route::get('/category/{id}', [ClientProduct::class, 'getByCategory'])->name('client.products');
+});

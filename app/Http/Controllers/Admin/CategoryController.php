@@ -31,12 +31,19 @@ class CategoryController extends Controller
     // Lưu category
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
+        ], [
+            'name.required' => 'Tên danh mục không được để trống',
+            'name.unique' => 'Tên danh mục đã tồn tại',
+        ]);
+
         $imagePath = null;
 
         if ($request->hasFile('image')) {
 
             $image = $request->file('image');
-            $imagePath = time().'.'.$image->getClientOriginalExtension();
+            $imagePath = time() . '.' . $image->getClientOriginalExtension();
 
             $image->move(public_path('uploads/categories'), $imagePath);
         }
@@ -50,7 +57,7 @@ class CategoryController extends Controller
         $this->modelCategory->insertCategory($data);
 
         return redirect()->route('category')
-                ->with('success','Thêm category thành công');
+            ->with('success', 'Thêm category thành công');
     }
 
     // Xem chi tiết
@@ -70,6 +77,10 @@ class CategoryController extends Controller
     // Update
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
+        ]);
+
         $category = $this->modelCategory->findByid($id);
 
         $imagePath = $category->image;
@@ -77,7 +88,7 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
 
             // xóa ảnh cũ
-            $oldImage = public_path('uploads/categories/'.$category->image);
+            $oldImage = public_path('uploads/categories/' . $category->image);
 
             if (file_exists($oldImage)) {
                 unlink($oldImage);
@@ -85,7 +96,7 @@ class CategoryController extends Controller
 
             // upload ảnh mới
             $image = $request->file('image');
-            $imagePath = time().'.'.$image->getClientOriginalExtension();
+            $imagePath = time() . '.' . $image->getClientOriginalExtension();
 
             $image->move(public_path('uploads/categories'), $imagePath);
         }
@@ -98,7 +109,7 @@ class CategoryController extends Controller
         $this->modelCategory->updateCategory($id, $data);
 
         return redirect()->route('category')
-                ->with('success','Cập nhật category thành công');
+            ->with('success', 'Cập nhật category thành công');
     }
 
     // Xóa
@@ -106,7 +117,7 @@ class CategoryController extends Controller
     {
         $category = $this->modelCategory->findByid($id);
 
-        $oldImage = public_path('uploads/categories/'.$category->image);
+        $oldImage = public_path('uploads/categories/' . $category->image);
 
         if (file_exists($oldImage)) {
             unlink($oldImage);
@@ -115,6 +126,6 @@ class CategoryController extends Controller
         $this->modelCategory->deleteCategory($id);
 
         return redirect()->route('category')
-                ->with('success','Xóa category thành công');
+            ->with('success', 'Xóa category thành công');
     }
 }

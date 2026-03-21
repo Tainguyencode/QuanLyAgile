@@ -99,137 +99,137 @@
             overflow-x: hidden;
         }
 
-    /* Điều chỉnh kích thước Banner to hơn */
-    .banner-img {
-        /* Chiều cao: Bạn có thể chỉnh 600px, 700px hoặc 80vh (80% màn hình) tùy ý */
-        height: 550px; 
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        width: 100vw; /* Chiều rộng full toàn bộ màn hình trình duyệt */
-        position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -50vw;
-        margin-right: -50vw;
-    }
+        /* Điều chỉnh kích thước Banner to hơn */
+        .banner-img {
+            /* Chiều cao: Bạn có thể chỉnh 600px, 700px hoặc 80vh (80% màn hình) tùy ý */
+            height: 550px; 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100vw; /* Chiều rộng full toàn bộ màn hình trình duyệt */
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+        }
 
-    .banner-overlay {
-        background: linear-gradient(to right, rgba(74, 55, 40, 0.8), rgba(0, 0, 0, 0.2));
-        height: 100%;
-        width: 100%;
-        display: flex;
-        align-items: center; /* Căn giữa nội dung theo chiều dọc */
-    }
+        .banner-overlay {
+            background: linear-gradient(to right, rgba(74, 55, 40, 0.8), rgba(0, 0, 0, 0.2));
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center; /* Căn giữa nội dung theo chiều dọc */
+        }
 
-    /* Đảm bảo container bên trong banner không bị lệch */
-    .banner-overlay .container {
-        height: auto !important; 
-    }
+        /* Đảm bảo container bên trong banner không bị lệch */
+        .banner-overlay .container {
+            height: auto !important; 
+        }
 
-    /* Phóng to tiêu đề cho tương xứng với banner to */
-    .banner-overlay h2 {
-        font-size: 4rem;
-    }
-    /* Css sản phẩm */
-    .product-card {
-        background: #fff;
-        border-radius: 20px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(0,0,0,0.05);
-        height: 100%;
-    }
+        /* Phóng to tiêu đề cho tương xứng với banner to */
+        .banner-overlay h2 {
+            font-size: 4rem;
+        }
+        /* Css sản phẩm */
+        .product-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            height: 100%;
+        }
 
-    /* Hover nổi lên */
-    .product-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-    }
+        /* Hover nổi lên */
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
 
-    /* Ảnh */
-    .product-img-wrapper {
-        width: 100%;
-        height: 200px;
-        overflow: hidden;
-    }
+        /* Ảnh */
+        .product-img-wrapper {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
 
-    .product-img-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.4s ease;
-    }
+        .product-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
 
-    /* Zoom ảnh khi hover */
-    .product-card:hover img {
-        transform: scale(1.1);
-    }
+        /* Zoom ảnh khi hover */
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
 
-    /* Nội dung */
-    .product-info {
-        padding: 15px;
-    }
+        /* Nội dung */
+        .product-info {
+            padding: 15px;
+        }
 
-    .product-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #4a3728;
-        margin-bottom: 5px;
-    }
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a3728;
+            margin-bottom: 5px;
+        }
 
-    .product-desc {
-        font-size: 13px;
-        color: #888;
-        margin-bottom: 10px;
-    }
+        .product-desc {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px;
+        }
 
-    /* Footer */
-    .product-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+        /* Footer */
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    /* Giá */
-    .product-price {
-        font-weight: bold;
-        color: #c9a67e;
-    }
+        /* Giá */
+        .product-price {
+            font-weight: bold;
+            color: #c9a67e;
+        }
 
-    /* Nút + */
-    .add-to-cart-btn {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        border: none;
-        background: #f4ede4;
-        color: #4a3728;
-        font-size: 18px;
-        transition: all 0.3s ease;
-    }
+        /* Nút + */
+        .add-to-cart-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            background: #f4ede4;
+            color: #4a3728;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
 
-    /* Hover nút */
-    .add-to-cart-btn:hover {
-        background: #c9a67e;
-        color: #fff;
-        transform: scale(1.1);
-    }
-    .product-card {
-        animation: fadeUp 0.6s ease forwards;
-        opacity: 0;
-    }
-
-    @keyframes fadeUp {
-        from {
+        /* Hover nút */
+        .add-to-cart-btn:hover {
+            background: #c9a67e;
+            color: #fff;
+            transform: scale(1.1);
+        }
+        .product-card {
+            animation: fadeUp 0.6s ease forwards;
             opacity: 0;
-            transform: translateY(20px);
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-    }
     </style>
 </head>
 <body>
