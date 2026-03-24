@@ -24,8 +24,7 @@
                                 <span class="product-price">
                                     {{ number_format($item->price) }}đ
                                 </span>
-
-                                <!-- Nút add cart -->
+                                
                                 <button class="add-to-cart-btn"
                                         onclick="event.preventDefault(); event.stopPropagation();">
                                     +

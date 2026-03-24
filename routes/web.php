@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\ClientProduct;
 use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -71,4 +72,10 @@ Route::prefix('client')->middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('client.home');
     Route::get('/category/{id}', [ClientProduct::class, 'getByCategory'])->name('client.products');
     Route::get('/products/{id}', [HomeController::class, 'show'])->name('client.product.show');
+    // Giỏ hàng
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+
 });

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\admin\Products;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $menuProducts = Products::orderBy('id', 'desc')->take(10)->get();
         View::share('menuProducts', $menuProducts);
+        Paginator::useBootstrapFive();
     }
 }

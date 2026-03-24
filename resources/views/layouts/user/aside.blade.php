@@ -52,13 +52,14 @@
 
     <div class="sidebar-section">
         <h3>Danh mục</h3>
-            @foreach ($categories as $category)
-                <a href="{{ route('client.products', $category->id) }}">
-                    {{$category->name}}
-                </a>
-            @endforeach
+            @if(isset($categories))
+                @foreach ($categories as $category)
+                    <a href="{{ route('client.products', $category->id) }}">
+                        {{$category->name}}
+                    </a>
+                @endforeach
+            @endif
     </div>
-
     <div class="sidebar-section mt-3">
         <h3>Sản phẩm hot 🔥</h3>
 

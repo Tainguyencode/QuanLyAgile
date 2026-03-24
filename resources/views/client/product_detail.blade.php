@@ -155,8 +155,13 @@
 @endsection
 
 @section('content')
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="container mt-5 mb-5">
-        <a href="/user" class="btn-back mb-4">
+        <a href="{{ route('client.home') }}" class="btn-back mb-4">
             <i class="fas fa-arrow-left me-2"></i> Quay lại
         </a>
         
@@ -188,9 +193,12 @@
                         Tổng cộng: <span id="total" class="total-price ms-2"></span>
                     </div>
 
-                    <button class="btn btn-cart w-100 mt-2">
-                        <i class="fas fa-shopping-cart me-2"></i> Thêm vào giỏ hàng
-                    </button>
+                    <form action="{{ route('cart.add', $products->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-cart w-100 mt-2">
+                            <i class="fas fa-shopping-cart me-2"></i> Thêm vào giỏ hàng
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -156,9 +156,13 @@
         </div>
 
         <div class="d-flex align-items-center gap-3">
-            <a href="/cart" class="position-relative text-decoration-none">
+            <a href="{{ route('cart.index') }}" class="position-relative text-decoration-none">
                 🛒
-                <span class="badge bg-warning text-dark small-badge">0</span>
+                <span class="badge bg-warning text-dark small-badge">
+                    {{ \Illuminate\Support\Facades\DB::table('carts')
+                        ->where('user_id', Auth::id())
+                        ->sum('quantity') }}
+                </span>
             </a>
 
             @if(Auth::check())
@@ -167,6 +171,12 @@
                 <a href="/login" class="btn btn-sm btn-outline-dark rounded-pill px-3">Đăng nhập</a>
             @endif
         </div>
+        <form action="/logout" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">
+                Đăng xuất
+            </button>
+        </form>
 
     </div>
 </nav>
