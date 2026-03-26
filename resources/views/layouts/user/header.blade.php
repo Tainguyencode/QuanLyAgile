@@ -156,14 +156,14 @@
         </div>
 
         <div class="d-flex align-items-center gap-3">
-            <a href="{{ route('cart.index') }}" class="position-relative text-decoration-none">
+            {{-- <a href="{{ route('cart.index') }}" class="position-relative text-decoration-none">
                 🛒
                 <span class="badge bg-warning text-dark small-badge">
                     {{ \Illuminate\Support\Facades\DB::table('carts')
                         ->where('user_id', Auth::id())
                         ->sum('quantity') }}
                 </span>
-            </a>
+            </a> --}}
 
             @if(Auth::check())
                 <a href="/profile" class="user-text  text-decoration-none">Chào, {{ Auth::user()->name }}</a>

@@ -204,6 +204,25 @@
         </div>
     </div>
 
+    <h3>Sản phẩm liên quan</h3>
+
+    <div class="row">
+        @foreach($relatedProducts as $item)
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img src="{{ asset('uploads/products/'.$item->image) }}" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5>{{ $item->name }}</h5>
+                        <p>{{ number_format($item->price) }} đ</p>
+                        <a href="{{ route('client.product.show', $item->id) }}" class="btn btn-sm btn-primary">
+                            Xem chi tiết
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
     <script>
         let price = {{ $products->price }};
         

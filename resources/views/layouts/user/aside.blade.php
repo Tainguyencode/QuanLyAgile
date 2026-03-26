@@ -97,3 +97,16 @@
     </div>
 
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const scrollY = localStorage.getItem("scrollY");
+        if (scrollY) {
+            window.scrollTo(0, scrollY);
+        }
+    });
+
+    window.onbeforeunload = function () {
+        localStorage.setItem("scrollY", window.scrollY);
+    };
+</script>
