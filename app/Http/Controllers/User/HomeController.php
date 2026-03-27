@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
 use App\Models\Admin\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,7 @@ class HomeController extends Controller
     public function show($id)
     {
         $products = Products::findOrFail($id);
+        $categories=Category::all();
 
         // lấy sản phẩm cùng danh mục
         $relatedProducts = Products::where('category_id', $products->category_id)
@@ -32,6 +34,6 @@ class HomeController extends Controller
             ->take(4) // lấy 4 sản phẩm
             ->get();
 
-        return view('client.product_detail', compact('products', 'relatedProducts'));
+        return view('client.product_detail', compact('products', 'relatedProducts', 'categories'));
     }
 }
