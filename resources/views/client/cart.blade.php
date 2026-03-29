@@ -159,7 +159,7 @@
                     </div>
 
                     <div class="col-md-1">
-                        <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+                        <form action="{{ route('cart.remove', $item->id) }}" method="POST" onsubmit="return confirm('Bạn có muốn xóa sản phẩm này ra khỏi giỏ hàng không?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn-remove">X</button>

@@ -17,21 +17,21 @@ class HomeController extends Controller
 
     public function index()
     {
-        $categories = Category::all(); // Hiển thị danh mục ở side bar
-        $products = Products::latest()->take(12)->get(); // lấy 12 sản phẩm mới
+        $categories = Category::all(); 
+        $products = Products::latest()->take(12)->get(); 
         return view('client.home', compact('products', 'categories'));
     }
     public function show($id)
     {
         $products = Products::findOrFail($id);
-
+        $categories = Category::all();
         // lấy sản phẩm cùng danh mục
         $relatedProducts = Products::where('category_id', $products->category_id)
             ->where('id', '!=', $products->id) // loại trừ chính nó
-            ->latest() // hoặc orderBy tùy bạn
-            ->take(4) // lấy 4 sản phẩm
+            ->latest()
+            ->take(4) 
             ->get();
 
-        return view('client.product_detail', compact('products', 'relatedProducts'));
+        return view('client.product_detail', compact('products', 'relatedProducts', 'categories'));
     }
 }

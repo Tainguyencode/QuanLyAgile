@@ -151,6 +151,69 @@
             background: #2d3436;
             color: white;
         }
+        .related-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #4a3728;
+            margin: 50px 0 25px;
+        }
+
+        .related-card {
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            background: #fff;
+        }
+
+        .related-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .related-img {
+            height: 180px;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+
+        .related-card:hover .related-img {
+            transform: scale(1.1);
+        }
+
+        .related-body {
+            padding: 15px;
+        }
+
+        .related-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        .related-price {
+            color: #d1913c;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .related-btn {
+            background: #d1913c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            padding: 6px 12px;
+            transition: 0.3s;
+        }
+
+        .related-btn:hover {
+            background: #b87d2f;
+            color: white;
+        }
     </style>
 @endsection
 
@@ -204,20 +267,31 @@
         </div>
     </div>
 
-    <h3>Sản phẩm liên quan</h3>
+    <h3 class="related-title">Sản phẩm liên quan</h3>
 
-    <div class="row">
+    <div class="row g-4">
         @foreach($relatedProducts as $item)
             <div class="col-md-3">
-                <div class="card mb-3">
-                    <img src="{{ asset('uploads/products/'.$item->image) }}" class="card-img-top" alt="">
-                    <div class="card-body">
-                        <h5>{{ $item->name }}</h5>
-                        <p>{{ number_format($item->price) }} đ</p>
-                        <a href="{{ route('client.product.show', $item->id) }}" class="btn btn-sm btn-primary">
+                <div class="related-card">
+                    
+                    <div style="overflow: hidden;">
+                        <img src="{{ asset('uploads/products/'.$item->image) }}" 
+                            class="w-100 related-img" alt="">
+                    </div>
+
+                    <div class="related-body text-center">
+                        <div class="related-name">{{ $item->name }}</div>
+                        
+                        <div class="related-price">
+                            {{ number_format($item->price, 0, ',', '.') }}đ
+                        </div>
+
+                        <a href="{{ route('client.product.show', $item->id) }}" 
+                        class="btn related-btn">
                             Xem chi tiết
                         </a>
                     </div>
+
                 </div>
             </div>
         @endforeach

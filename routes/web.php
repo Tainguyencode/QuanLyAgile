@@ -79,6 +79,10 @@ Route::prefix('client')->middleware('auth')->group(function () {
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/profile', [ProfileController::class, 'index'])->name('client.profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('client.profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('client.profile.update');
+
+
 
 
 });

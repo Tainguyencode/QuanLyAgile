@@ -52,10 +52,17 @@
         <i class="fas fa-arrow-left me-2"></i> Quay lại
     </a>
     <div class="card profile-card shadow p-4">
-        <h3 class="mb-4 profile-title">
-            <i class="fas fa-user-circle me-2"></i> Hồ sơ cá nhân
-        </h3>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            
+            <h3 class="profile-title m-0">
+                <i class="fas fa-user-circle me-2"></i> Hồ sơ cá nhân
+            </h3>
 
+            <a href="{{ route('client.profile.edit') }}" class="btn btn-warning">
+                <i class="fa-solid fa-pen me-1"></i> Chỉnh sửa hồ sơ
+            </a>
+
+        </div>
         <div class="profile-item">
             <i class="fas fa-user"></i>
             <span><strong>Tên:</strong> {{ $user->name }}</span>
