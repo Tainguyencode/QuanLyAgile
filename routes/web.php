@@ -78,4 +78,11 @@ Route::prefix('client')->middleware('auth')->group(function () {
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
+    // Checkout + Payment
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [CartController::class, 'create'])->name('checkout.create');
+    Route::post('/payment/create', [CartController::class, 'create'])->name('payment.create');
+    Route::get('/payment/success/{id}', [CartController::class, 'success'])->name('payment.success');
+    Route::get('/payment/fail/{id}', [CartController::class, 'fail'])->name('payment.fail');
+
 });

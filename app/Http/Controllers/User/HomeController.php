@@ -26,12 +26,13 @@ class HomeController extends Controller
         $products = Products::findOrFail($id);
 
         // lấy sản phẩm cùng danh mục
+        $categories = Category::all(); // Hiển thị danh mục ở side bar
         $relatedProducts = Products::where('category_id', $products->category_id)
             ->where('id', '!=', $products->id) // loại trừ chính nó
             ->latest() // hoặc orderBy tùy bạn
             ->take(4) // lấy 4 sản phẩm
             ->get();
 
-        return view('client.product_detail', compact('products', 'relatedProducts'));
+        return view('client.product_detail', compact('products', 'relatedProducts', 'categories'));
     }
 }

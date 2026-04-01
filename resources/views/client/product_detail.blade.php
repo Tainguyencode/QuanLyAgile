@@ -6,22 +6,30 @@
             background: #ffffff;
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
             animation: fadeIn 0.8s ease-out;
             border: 1px solid #f1f2f6;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-      .product-img-wrapper {
+
+        .product-img-wrapper {
             width: 100%;
-            height: 800px; 
+            height: 800px;
             min-height: 350px;
             overflow: hidden;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             background: #fff;
             display: flex;
             align-items: center;
@@ -34,17 +42,21 @@
             object-fit: cover;
             transition: transform 0.5s;
         }
+
         .product-img:hover {
             transform: scale(1.1);
         }
+
         @media (min-width: 1200px) {
             .product-img-wrapper {
                 height: 850px;
             }
         }
+
         .row.align-items-center {
             align-items: stretch !important;
         }
+
         .product-title {
             font-size: 2.2rem;
             font-weight: 800;
@@ -61,10 +73,11 @@
         .product-price {
             font-size: 34px;
             font-weight: 800;
-            color: #d1913c; 
+            color: #d1913c;
             margin-bottom: 20px;
             display: block;
         }
+
         .qty-box {
             background: #f8f9fa;
             padding: 6px;
@@ -104,6 +117,7 @@
             font-size: 1.2rem;
             color: #2d3436;
         }
+
         .total-section {
             font-size: 1.3rem;
             font-weight: 700;
@@ -113,11 +127,12 @@
         }
 
         .total-price {
-            color: #d1913c; 
+            color: #d1913c;
             font-size: 1.8rem;
         }
+
         .btn-cart {
-            background: #d1913c; 
+            background: #d1913c;
             color: white;
             border: none;
             padding: 18px;
@@ -135,6 +150,7 @@
             box-shadow: 0 12px 25px rgba(209, 145, 60, 0.4);
             color: white;
         }
+
         .btn-back {
             border: none;
             background: #dfe6e9;
@@ -151,11 +167,70 @@
             background: #2d3436;
             color: white;
         }
+
+        .related-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 40px 0 20px;
+            color: #2d3436;
+        }
+
+        .related-card {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #f1f2f6;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .related-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .related-body {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .related-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 8px;
+
+            /* fix text dài */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .related-price {
+            color: #d1913c;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .related-btn {
+            margin-top: auto;
+            border-radius: 10px;
+        }
     </style>
 @endsection
 
 @section('content')
-    @if(session('success'))
+    @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
@@ -164,20 +239,20 @@
         <a href="{{ route('client.home') }}" class="btn-back mb-4">
             <i class="fas fa-arrow-left me-2"></i> Quay lại
         </a>
-        
+
         <div class="product-detail">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="product-img-wrapper">
-                        <img src="{{ asset('uploads/products/'.$products->image) }}" 
-                             class="img-fluid product-img" alt="{{ $products->name }}">
+                        <img src="{{ asset('uploads/products/' . $products->image) }}" class="img-fluid product-img"
+                            alt="{{ $products->name }}">
                     </div>
                 </div>
 
                 <div class="col-md-6 ps-md-5 mt-4 mt-md-0">
                     <h2 class="product-title">{{ $products->name }}</h2>
                     <p class="product-description">{{ $products->description }}</p>
-                    
+
                     <span class="product-price">
                         {{ number_format($products->price, 0, ',', '.') }}đ
                     </span>
@@ -204,17 +279,22 @@
         </div>
     </div>
 
-    <h3>Sản phẩm liên quan</h3>
+    <h3 class="related-title">Sản phẩm liên quan</h3>
 
-    <div class="row">
-        @foreach($relatedProducts as $item)
+    <div class="row g-3">
+        @foreach ($relatedProducts as $item)
             <div class="col-md-3">
-                <div class="card mb-3">
-                    <img src="{{ asset('uploads/products/'.$item->image) }}" class="card-img-top" alt="">
-                    <div class="card-body">
-                        <h5>{{ $item->name }}</h5>
-                        <p>{{ number_format($item->price) }} đ</p>
-                        <a href="{{ route('client.product.show', $item->id) }}" class="btn btn-sm btn-primary">
+                <div class="related-card">
+                    <img src="{{ asset('uploads/products/' . $item->image) }}" class="related-img" alt="">
+
+                    <div class="related-body">
+                        <div class="related-name">{{ $item->name }}</div>
+
+                        <div class="related-price">
+                            {{ number_format($item->price, 0, ',', '.') }}đ
+                        </div>
+
+                        <a href="{{ route('client.product.show', $item->id) }}" class="btn btn-sm btn-primary related-btn">
                             Xem chi tiết
                         </a>
                     </div>
@@ -225,22 +305,22 @@
 
     <script>
         let price = {{ $products->price }};
-        
-        function updateTotal(){
+
+        function updateTotal() {
             let quantity = document.getElementById('qty').value;
             let total = quantity * price;
             document.getElementById('total').innerHTML = total.toLocaleString('vi-VN') + 'đ';
         }
-        
-        function increase(){
+
+        function increase() {
             let qty = document.getElementById('qty');
             qty.value++;
             updateTotal();
         }
-        
-        function decrease(){
+
+        function decrease() {
             let qty = document.getElementById('qty');
-            if(qty.value > 1) {
+            if (qty.value > 1) {
                 qty.value--;
                 updateTotal();
             }

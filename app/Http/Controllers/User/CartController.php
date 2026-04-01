@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    public function add($id){
-        $userId=Auth::id();
-        $product=DB::table('products')->where('id',$id)->first();
+    public function add($id)
+    {
+        $userId = Auth::id();
+        $product = DB::table('products')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->with('error', 'Sản phẩm không tồn tại!');
         }
@@ -20,7 +22,7 @@ class CartController extends Controller
             ->where('product_id', $id)
             ->first();
         // Nếu có trong cart 
-         if ($cart) {
+        if ($cart) {
             // Nếu có rồi  tăng số lượng
             DB::table('carts')
                 ->where('id', $cart->id)
@@ -40,7 +42,8 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng!');
     }
 
-    public function index(){
+    public function index()
+    {
         $userId = Auth::id();
 
         $cart = DB::table('carts')
@@ -53,21 +56,28 @@ class CartController extends Controller
                 'products.image',
                 'carts.quantity'
             )->get();
-            $categories = DB::table('categories')->get();
+        $categories = DB::table('categories')->get();
 
         return view('client.cart', compact('cart', 'categories'));
     }
-    public function update(Request $request){
+
+    public function update(Request $request)
+    {
         $userId = Auth::id();
-        DB::class('cart')->where('user_id', $userId)->where('product_id', $request->id)
-                        ->update([
-                            'quantity'=>$request->quantity,
-                            'updated_at'=>now()
-                        ]);
-        return response()->json(['succes'=>true]);
+
+        DB::table('carts')
+            ->where('user_id', $userId)
+            ->where('product_id', $request->id)
+            ->update([
+                'quantity' => $request->quantity,
+                'updated_at' => now()
+            ]);
+
+        return response()->json(['success' => true]);
     }
+
     public function remove($id)
-     {
+    {
         $userId = Auth::id();
 
         DB::table('carts')
@@ -76,5 +86,100 @@ class CartController extends Controller
             ->delete();
 
         return redirect()->back()->with('success', 'Đã xóa sản phẩm!');
+    }
+
+
+
+    //  Hiển thị trang checkout (chọn phương thức)
+    public function checkout()
+    {
+        $userId = Auth::id();
+
+        $cart = DB::table('carts')
+            ->join('products', 'carts.product_id', '=', 'products.id')
+            ->where('carts.user_id', $userId)
+            ->select(
+                'products.id',
+                'products.name',
+                'products.price',
+                'products.image',
+                'carts.quantity'
+            )->get();
+
+        $total = 0;
+
+        foreach ($cart as $item) {
+            $total += $item->price * $item->quantity;
+        }
+        $categories = DB::table('categories')->get();
+
+        return view('client.checkout', compact('cart', 'total'));
+    }
+
+    public function create(Request $request)
+    {
+        $request->validate([
+            'method' => 'required|in:cod,qr',
+            'amount' => 'required|numeric|min:1'
+        ]);
+
+        $userId = Auth::id();
+
+        // 🔥 Tạo payment
+        $payment = Payment::create([
+            'user_id' => $userId,
+            'order_id' => null,
+            'amount' => $request->amount,
+            'method' => $request->method,
+            'status' => $request->method == 'cod' ? 'success' : 'pending'
+        ]);
+
+        // 🔥 Xóa cart trong DB (KHÔNG dùng session nữa)
+        DB::table('carts')->where('user_id', $userId)->delete();
+
+        // ===== COD =====
+        if ($request->method == 'cod') {
+            return redirect()->route('client.home')
+                ->with('success', 'Đặt hàng thành công (COD)');
+        }
+
+        // ===== QR =====
+        return redirect()->route('client.home')
+            ->with('success', 'Vui lòng quét QR để thanh toán!');
+    }
+
+    //  Thanh toán thành công (fake)
+    public function success($id)
+    {
+        $payment = Payment::findOrFail($id);
+
+        // Tránh update nhiều lần
+        if ($payment->status !== 'success') {
+            $payment->update([
+                'status' => 'success',
+                'transaction_code' => 'FAKE_' . time()
+            ]);
+        }
+
+        // Xóa giỏ hàng
+        session()->forget('cart');
+
+        return redirect()->route('client.home')
+            ->with('success', 'Thanh toán thành công!');
+    }
+
+    //  Thanh toán thất bại (fake)
+    public function fail($id)
+    {
+        $payment = Payment::findOrFail($id);
+
+        if ($payment->status !== 'failed') {
+            $payment->update([
+                'status' => 'failed'
+            ]);
+        }
+
+        return redirect()->route('checkout')
+            ->with('error', 'Thanh toán thất bại, vui lòng thử lại!');
     }
 }
