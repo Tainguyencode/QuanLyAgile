@@ -88,8 +88,6 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Đã xóa sản phẩm!');
     }
 
-
-
     //  Hiển thị trang checkout (chọn phương thức)
     public function checkout()
     {
@@ -125,61 +123,23 @@ class CartController extends Controller
 
         $userId = Auth::id();
 
-        // 🔥 Tạo payment
+        $orderCode = 'DH' . time();
+
         $payment = Payment::create([
             'user_id' => $userId,
             'order_id' => null,
             'amount' => $request->amount,
             'method' => $request->method,
-            'status' => $request->method == 'cod' ? 'success' : 'pending'
+            'status' => $request->method == 'cod' ? 'success' : 'pending',
+            'transaction_code' => $orderCode
         ]);
 
-        // 🔥 Xóa cart trong DB (KHÔNG dùng session nữa)
         DB::table('carts')->where('user_id', $userId)->delete();
 
-        // ===== COD =====
-        if ($request->method == 'cod') {
-            return redirect()->route('client.home')
-                ->with('success', 'Đặt hàng thành công (COD)');
-        }
-
-        // ===== QR =====
-        return redirect()->route('client.home')
-            ->with('success', 'Vui lòng quét QR để thanh toán!');
-    }
-
-    //  Thanh toán thành công (fake)
-    public function success($id)
-    {
-        $payment = Payment::findOrFail($id);
-
-        // Tránh update nhiều lần
-        if ($payment->status !== 'success') {
-            $payment->update([
-                'status' => 'success',
-                'transaction_code' => 'FAKE_' . time()
-            ]);
-        }
-
-        // Xóa giỏ hàng
-        session()->forget('cart');
-
-        return redirect()->route('client.home')
-            ->with('success', 'Thanh toán thành công!');
-    }
-
-    //  Thanh toán thất bại (fake)
-    public function fail($id)
-    {
-        $payment = Payment::findOrFail($id);
-
-        if ($payment->status !== 'failed') {
-            $payment->update([
-                'status' => 'failed'
-            ]);
-        }
-
-        return redirect()->route('checkout')
-            ->with('error', 'Thanh toán thất bại, vui lòng thử lại!');
+        return redirect()->route('checkout.success')->with([
+            'code' => $orderCode,
+            'amount' => $request->amount,
+            'method' => $request->method
+        ]);
     }
 }

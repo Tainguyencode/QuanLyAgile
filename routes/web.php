@@ -81,8 +81,7 @@ Route::prefix('client')->middleware('auth')->group(function () {
     // Checkout + Payment
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
     Route::post('/checkout', [CartController::class, 'create'])->name('checkout.create');
-    Route::post('/payment/create', [CartController::class, 'create'])->name('payment.create');
-    Route::get('/payment/success/{id}', [CartController::class, 'success'])->name('payment.success');
-    Route::get('/payment/fail/{id}', [CartController::class, 'fail'])->name('payment.fail');
-
+    Route::get('/checkout/success', function () {
+        return view('client.success');
+    })->name('checkout.success');
 });
