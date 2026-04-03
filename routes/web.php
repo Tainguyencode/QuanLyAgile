@@ -84,4 +84,7 @@ Route::prefix('client')->middleware('auth')->group(function () {
     Route::get('/checkout/success', function () {
         return view('client.success');
     })->name('checkout.success');
+
+    Route::get('/orders', [CartController::class, 'orders'])->name('orders');
+    Route::get('/orders/{id}', [CartController::class, 'show'])->name('orders.show');
 });

@@ -9,24 +9,25 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up(): void
-{
-    Schema::create('order_items', function (Blueprint $table) {
-        $table->id();
+    public function up(): void
+    {
+        Schema::create('order_items', function (Blueprint $table) {
+            $table->id();
 
-        $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
 
-        $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id');
 
-        $table->string('name');
-        $table->string('image')->nullable();
+            // lưu snapshot (rất chuẩn)
+            $table->string('name');
+            $table->string('image')->nullable();
 
-        $table->decimal('price', 10, 2);
-        $table->integer('quantity');
+            $table->decimal('price', 10, 2);
+            $table->integer('quantity');
 
-        $table->timestamps();
-    });
-}
+            $table->timestamps();
+        });
+    }
     /**
      * Reverse the migrations.
      */

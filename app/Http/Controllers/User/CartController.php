@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -111,35 +113,81 @@ class CartController extends Controller
         }
         $categories = DB::table('categories')->get();
 
-        return view('client.checkout', compact('cart', 'total'));
+        return view('client.checkout', compact('cart', 'total', 'categories'));
     }
 
     public function create(Request $request)
     {
         $request->validate([
-            'method' => 'required|in:cod,qr',
-            'amount' => 'required|numeric|min:1'
+            'method' => 'required|in:cod,qr'
         ]);
 
         $userId = Auth::id();
 
+        // LẤY CART
+        $cart = DB::table('carts')
+            ->join('products', 'carts.product_id', '=', 'products.id')
+            ->where('carts.user_id', $userId)
+            ->select(
+                'products.id',
+                'products.name',
+                'products.image',
+                'products.price',
+                'carts.quantity'
+            )->get();
+
+        if ($cart->isEmpty()) {
+            return redirect()->back()->with('error', 'Giỏ hàng trống!');
+        }
+
+        // TÍNH TOTAL
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item->price * $item->quantity;
+        }
+
+        // MÃ ĐƠN
         $orderCode = 'DH' . time();
 
-        $payment = Payment::create([
+        // TẠO ORDER
+        $order = Order::create([
             'user_id' => $userId,
-            'order_id' => null,
-            'amount' => $request->amount,
-            'method' => $request->method,
-            'status' => $request->method == 'cod' ? 'success' : 'pending',
-            'transaction_code' => $orderCode
+            'code' => $orderCode,
+            'total' => $total,
+            'payment_method' => $request->method,
+            'status' => $request->method == 'cod' ? 'pending' : 'waiting_payment'
         ]);
 
+        // TẠO ORDER ITEMS
+        foreach ($cart as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item->id,
+                'name' => $item->name,
+                'image' => $item->image,
+                'price' => $item->price,
+                'quantity' => $item->quantity
+            ]);
+        }
+
+
+        // XÓA CART
         DB::table('carts')->where('user_id', $userId)->delete();
 
-        return redirect()->route('checkout.success')->with([
-            'code' => $orderCode,
-            'amount' => $request->amount,
-            'method' => $request->method
-        ]);
+        return redirect()->route('orders.show', $order->id);
+    }
+
+    public function orders()
+    {
+        $orders = Order::where('user_id', Auth::id())->latest()->get();
+        $categories = DB::table('categories')->get();
+        return view('client.orders', compact('orders', 'categories'));
+    }
+
+    public function show($id)
+    {
+        $order = Order::with('items')->where('user_id', Auth::id())->findOrFail($id);
+        $categories = DB::table('categories')->get();
+        return view('client.order_detail', compact('order', 'categories'));
     }
 }

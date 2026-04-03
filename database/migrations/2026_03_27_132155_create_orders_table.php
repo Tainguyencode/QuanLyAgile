@@ -14,17 +14,23 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            // User đặt hàng
+            // user
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
-            // Tổng tiền
+            // mã đơn (QUAN TRỌNG)
+            $table->string('code')->unique();
+
+            // tổng tiền
             $table->decimal('total', 10, 2);
 
-            // Trạng thái đơn hàng
-            $table->string('status')->default('pending');
-            // pending | processing | completed | cancelled
+            // phương thức thanh toán
+            $table->string('payment_method'); // cod | qr
 
-            // Thông tin nhận hàng (optional)
+            // trạng thái
+            $table->string('status')->default('pending');
+            // pending | waiting_payment | processing | completed | cancelled
+
+            // thông tin nhận hàng
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();

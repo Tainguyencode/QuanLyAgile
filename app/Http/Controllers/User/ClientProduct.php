@@ -22,49 +22,59 @@ class ClientProduct extends Controller
         return view('client.home', compact('products', 'categories'));
     }
 
-
-
-    public function createOrder()
+    public function create(Request $request)
     {
-        $cart = Cart::where('user_id', Auth::id())->get();
+        $request->validate([
+            'method' => 'required|in:cod,qr',
+            'amount' => 'required|numeric|min:1'
+        ]);
+
+        $userId = Auth::id();
+
+        // Lấy cart
+        $cart = DB::table('carts')
+            ->join('products', 'carts.product_id', '=', 'products.id')
+            ->where('carts.user_id', $userId)
+            ->select(
+                'products.id',
+                'products.name',
+                'products.image',
+                'products.price',
+                'carts.quantity'
+            )->get();
 
         if ($cart->isEmpty()) {
             return redirect()->back()->with('error', 'Giỏ hàng trống!');
         }
 
-        DB::beginTransaction();
+        // tạo mã đơn
+        $orderCode = 'DH' . time();
 
-        try {
-            $total = $cart->sum(function ($item) {
-                return $item->price * $item->quantity;
-            });
+        // tạo order
+        $order = Order::create([
+            'user_id' => $userId,
+            'code' => $orderCode,
+            'total' => $request->amount,
+            'payment_method' => $request->method,
+            'status' => $request->method == 'cod' ? 'pending' : 'waiting_payment'
+        ]);
 
-            $order = Order::create([
-                'user_id' => Auth::id(),
-                'total' => $total,
-                'status' => 'pending'
+        // lưu order_items
+        foreach ($cart as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item->id,
+                'name' => $item->name,
+                'image' => $item->image,
+                'price' => $item->price,
+                'quantity' => $item->quantity
             ]);
-
-            foreach ($cart as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item->product_id,
-                    'name' => $item->name,
-                    'image' => $item->image,
-                    'price' => $item->price,
-                    'quantity' => $item->quantity
-                ]);
-            }
-
-            // 🧹 Xóa giỏ hàng sau khi đặt
-            $cart = Cart::where('user_id', Auth::id())->delete();
-
-            DB::commit();
-
-            return redirect()->route('order.success')->with('success', 'Đặt hàng thành công!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Có lỗi xảy ra!');
         }
+
+        // xóa cart
+        DB::table('carts')->where('user_id', $userId)->delete();
+
+        return redirect()->route('orders.show', $order->id);
     }
+
 }
