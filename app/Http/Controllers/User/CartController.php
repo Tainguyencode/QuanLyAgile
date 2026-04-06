@@ -119,7 +119,9 @@ class CartController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'method' => 'required|in:cod,qr'
+            'method' => 'required|in:cod,qr',
+            'address' => 'required',
+            'phone' => 'required'
         ]);
 
         $userId = Auth::id();
@@ -129,7 +131,7 @@ class CartController extends Controller
             ->join('products', 'carts.product_id', '=', 'products.id')
             ->where('carts.user_id', $userId)
             ->select(
-                'products.id',
+                'products.id as product_id',
                 'products.name',
                 'products.image',
                 'products.price',
@@ -155,14 +157,18 @@ class CartController extends Controller
             'code' => $orderCode,
             'total' => $total,
             'payment_method' => $request->method,
-            'status' => $request->method == 'cod' ? 'pending' : 'waiting_payment'
+            'status' => 'processing', // trạng thái đơn
+            'payment_status' => $request->method == 'cod' ? 'unpaid' : 'unpaid',
+            'name'=> $request->name,
+            'address' => $request->address,
+            'phone' => $request->phone,
         ]);
 
         // TẠO ORDER ITEMS
         foreach ($cart as $item) {
             OrderItem::create([
                 'order_id' => $order->id,
-                'product_id' => $item->id,
+                'product_id' => $item->product_id,
                 'name' => $item->name,
                 'image' => $item->image,
                 'price' => $item->price,
@@ -170,17 +176,19 @@ class CartController extends Controller
             ]);
         }
 
-
         // XÓA CART
         DB::table('carts')->where('user_id', $userId)->delete();
 
-        return redirect()->route('orders.show', $order->id);
+        return redirect()->route('client.home');
     }
 
     public function orders()
     {
-        $orders = Order::where('user_id', Auth::id())->latest()->get();
+        $orders = Order::with('items')
+            ->where('user_id', Auth::id())
+            ->get();
         $categories = DB::table('categories')->get();
+
         return view('client.orders', compact('orders', 'categories'));
     }
 

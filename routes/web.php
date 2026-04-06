@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -66,6 +67,11 @@ Route::prefix('admin')->group(function () {
     Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
     Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+    //Order
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{id}/update', [OrderController::class, 'updateStatus'])->name('orders.update');
 });
 
 Route::prefix('client')->middleware('auth')->group(function () {
