@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\ClientProduct;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -77,5 +78,11 @@ Route::prefix('client')->middleware('auth')->group(function () {
     Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('client.profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('client.profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('client.profile.update');
+
+
+
 
 });

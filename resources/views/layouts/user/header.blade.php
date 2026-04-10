@@ -166,7 +166,7 @@
             </a>
 
             @if(Auth::check())
-                <a href="/profile" class="user-text  text-decoration-none">Chào, {{ Auth::user()->name }}</a>
+                <a href="{{ route('client.profile') }}" class="user-text  text-decoration-none">Chào, {{ Auth::user()->name }}</a>
             @else
                 <a href="/login" class="btn btn-sm btn-outline-dark rounded-pill px-3">Đăng nhập</a>
             @endif

@@ -27,7 +27,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <p style="font-size: 11px; color: #bdbdbd; letter-spacing: 1px; text-transform: uppercase;">
+            <p style="font-size: 11px; color: #a6a3a3; letter-spacing: 1px; text-transform: uppercase;">
                 © 2026 Web đồ ăn nhanh • Thiết kế bởi Nhóm 10
             </p>
         </div>
