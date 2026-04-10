@@ -22,8 +22,8 @@ class ProfileController extends Controller
         $user = DB::table('users')
             ->where('id', Auth::id())
             ->first();
-
-        return view('client.profile_edit', compact('user'));
+        $categories = Category::all();
+        return view('client.profile_edit', compact('user', 'categories'));
     }
     public function update(Request $request)
     {
@@ -57,7 +57,7 @@ class ProfileController extends Controller
             $data['password'] = Hash::make($request->password);
         }
 
-        //  KHÔNG update role
+    
         DB::table('users')
             ->where('id', $userId)
             ->update($data);

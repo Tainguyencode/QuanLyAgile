@@ -36,7 +36,7 @@ class AuthController extends Controller{
             'role'=>'user'
         ]);
         Auth::login($user);
-        return redirect('/client')->with('success', 'Đăng ký thành công');
+        return redirect('/login')->with('success', 'Đăng ký thành công');
     }
     public function login(Request $request){
         $request->validate([
@@ -64,5 +64,5 @@ class AuthController extends Controller{
     public function logout(){
         Auth::logout();
         return redirect('/login');
-    }
+    } 
 }

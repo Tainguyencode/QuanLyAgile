@@ -17,20 +17,10 @@
                 <label>Email</label>
                 <input type="email" name="email" class="form-control" value="{{ $user->email }}">
             </div>
-
             <div class="mb-3">
                 <label>Số điện thoại</label>
                 <input type="text" name="phone" class="form-control" value="{{ $user->phone }}">
             </div>
-
-            <!-- Không cho sửa role -->
-            <div class="mb-3">
-                <label>Vai trò</label>
-                <input type="text" class="form-control" value="{{ $user->role }}" disabled>
-            </div>
-
-            <hr>
-
             <div class="mb-3">
                 <label>Mật khẩu mới (không bắt buộc)</label>
                 <input type="password" name="password" class="form-control">

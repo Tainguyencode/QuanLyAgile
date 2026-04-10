@@ -78,10 +78,6 @@
             <span><strong>Số điện thoại:</strong> {{ $user->phone }}</span>
         </div>
 
-        <div class="profile-item">
-            <i class="fas fa-user-shield"></i>
-            <span><strong>Vai trò:</strong> {{ $user->role }}</span>
-        </div>
 
     </div>
 
