@@ -4,7 +4,7 @@
     <a href="/admin/categories">🗂️Quản lý danh mục</a>
     <a href="/admin/products">🛍️Quản lý sản phẩm</a>
     <a href="/admin/user">👥Quản lý tài khoản</a>
-    <a href="#">🧾Quản lý đơn hàng</a>
+    <a href="/admin/orders">🧾Quản lý đơn hàng</a>
     <form action="/logout" method="POST">
     @csrf
     <button type="submit" style="background:none;border:none;color:white;">

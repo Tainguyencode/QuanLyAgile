@@ -12,21 +12,24 @@
         text-transform: uppercase;
     }
 
-    .nav-custom:hover { color: #c9a67e; }
+    .nav-custom:hover {
+        color: #c9a67e;
+    }
 
     .navbar-brand {
         padding-top: 0;
         padding-bottom: 0;
-        margin-top: -10px; 
+        margin-top: -10px;
         margin-bottom: -8px;
     }
 
     /* Đảm bảo các link menu vẫn căn giữa theo chiều dọc */
     .nav-link {
-        line-height: 1; 
+        line-height: 1;
         display: flex;
         align-items: center;
     }
+
     .custom-dropdown {
         position: absolute;
         top: 100%;
@@ -54,7 +57,7 @@
     }
 
     .banner-overlay {
-        background: linear-gradient(to right, rgba(0,0,0,0.6), transparent);
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
         height: 100%;
         display: flex;
         align-items: center;
@@ -66,7 +69,9 @@
         font-family: 'Playfair Display', serif;
     }
 
-    .banner-overlay span { color: #ffca28; }
+    .banner-overlay span {
+        color: #ffca28;
+    }
 
     .small-badge {
         position: absolute;
@@ -74,6 +79,7 @@
         right: -10px;
         font-size: 10px;
     }
+
     .user-text {
         color: #4a3728;
         text-decoration: none;
@@ -81,11 +87,13 @@
 
     .user-text:hover {
         text-decoration: none;
-        color: #c9a67e; /* optional hover đẹp hơn */
+        color: #c9a67e;
+        /* optional hover đẹp hơn */
     }
+
     .features-section {
         background: #f4ede4;
-        padding: 60px 0;    
+        padding: 60px 0;
     }
 
     .feature-card {
@@ -93,12 +101,12 @@
         padding: 30px 20px;
         border-radius: 20px;
         transition: all 0.3s ease;
-        border: 1px solid rgba(0,0,0,0.05);
+        border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     .feature-card:hover {
         transform: translateY(-8px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
     }
 
     .feature-card .icon {
@@ -119,7 +127,8 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg sticky-top" style="background-color: #fdf5e6; border-bottom: 1px solid #e8e0d5; padding: 15px 50px;">
+<nav class="navbar navbar-expand-lg sticky-top"
+    style="background-color: #fdf5e6; border-bottom: 1px solid #e8e0d5; padding: 15px 50px;">
     <div class="container-fluid">
 
         <a class="navbar-brand d-flex align-items-center" href="">
@@ -134,16 +143,19 @@
         <div class="collapse navbar-collapse justify-content-center fw-bold" id="userNavbar">
             <ul class="navbar-nav gap-4">
 
-                <li class="nav-item"><a class="nav-link nav-custom" href="/">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link nav-custom" href="/client">Trang chủ</a></li>
 
                 <li class="nav-item dropdown dropdown-hover position-relative">
                     <a class="nav-link dropdown-toggle nav-custom" href="javascript:void(0)">Thực đơn</a>
 
                     <ul class="dropdown-menu custom-dropdown">
-                        @foreach($menuProducts as $product)
-                            <li><a class="dropdown-item" href="{{ route('client.product.show', $product->id) }}">{{ $product->name }}</a></li>
+                        @foreach ($menuProducts as $product)
+                            <li><a class="dropdown-item"
+                                    href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></li>
                         @endforeach
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li><a class="dropdown-item text-center view-all" href="/menu">Xem tất cả</a></li>
                     </ul>
                 </li>
@@ -156,17 +168,18 @@
         </div>
 
         <div class="d-flex align-items-center gap-3">
+            <a class="nav-link nav-custom" href="{{ route('orders') }}">
+                📦 Đơn hàng
+            </a>
             <a href="{{ route('cart.index') }}" class="position-relative text-decoration-none">
                 🛒
                 <span class="badge bg-warning text-dark small-badge">
-                    {{ \Illuminate\Support\Facades\DB::table('carts')
-                        ->where('user_id', Auth::id())
-                        ->sum('quantity') }}
+                    {{ \Illuminate\Support\Facades\DB::table('carts')->where('user_id', Auth::id())->sum('quantity') }}
                 </span>
             </a>
 
-            @if(Auth::check())
-                <a href="{{ route('client.profile') }}" class="user-text  text-decoration-none">Chào, {{ Auth::user()->name }}</a>
+            @if (Auth::check())
+                <a href="/profile" class="user-text  text-decoration-none">Chào, {{ Auth::user()->name }}</a>
             @else
                 <a href="/login" class="btn btn-sm btn-outline-dark rounded-pill px-3">Đăng nhập</a>
             @endif
@@ -187,7 +200,8 @@
     <div class="carousel-inner">
 
         <div class="carousel-item active">
-            <div class="banner-img" style="background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591');">
+            <div class="banner-img"
+                style="background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591');">
                 <div class="banner-overlay">
                     <div class="container">
                         <h2>Pizza Hải Sản <br><span>Mềm thơm ngậy</span></h2>
@@ -198,7 +212,8 @@
         </div>
 
         <div class="carousel-item">
-            <div class="banner-img" style="background-image: url('https://images.unsplash.com/photo-1550547660-d9450f859349');">
+            <div class="banner-img"
+                style="background-image: url('https://images.unsplash.com/photo-1550547660-d9450f859349');">
                 <div class="banner-overlay">
                     <div class="container">
                         <h2>Burger Bò <br><span>Thượng Hạng</span></h2>
@@ -209,7 +224,8 @@
         </div>
 
         <div class="carousel-item">
-            <div class="banner-img" style="background-image: url('https://images.unsplash.com/photo-1622483767028-3f66f32aef97');">
+            <div class="banner-img"
+                style="background-image: url('https://images.unsplash.com/photo-1622483767028-3f66f32aef97');">
                 <div class="banner-overlay">
                     <div class="container">
                         <h2>Giải Nhiệt <br><span>Tức Thì</span></h2>

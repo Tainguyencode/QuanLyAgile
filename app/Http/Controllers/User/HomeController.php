@@ -27,6 +27,7 @@ class HomeController extends Controller
         $products = Products::findOrFail($id);
         $categories = Category::all();
         // lấy sản phẩm cùng danh mục
+        $categories = Category::all(); // Hiển thị danh mục ở side bar
         $relatedProducts = Products::where('category_id', $products->category_id)
             ->where('id', '!=', $products->id) // loại trừ chính nó
             ->latest()
